@@ -235,33 +235,63 @@ export function ContactContent() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="relative group"
+                className="relative group sticky top-24"
               >
-                <div className="absolute -inset-1 bg-gradient-to-br from-violet-500/20 to-blue-500/20 rounded-2xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity"></div>
-                <div className="relative glass-panel-glow rounded-xl p-3 overflow-hidden">
-                  <div className="flex items-center gap-3 p-5 border-b border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold">Schedule a call</h2>
-                      <div className="w-12 h-0.5 bg-gradient-to-r from-violet-500 to-transparent rounded-full mt-1"></div>
+                {/* Premium gradient glow halo */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-violet-500/30 via-blue-500/20 to-violet-500/30 rounded-3xl blur-2xl opacity-40 group-hover:opacity-70 transition-opacity pointer-events-none"></div>
+                
+                {/* Glass panel container */}
+                <div className="relative glass-panel-glow rounded-2xl overflow-hidden backdrop-blur-xl">
+                  {/* Premium header with badge */}
+                  <div className="relative px-6 py-6 border-b border-white/10">
+                    <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-blue-500/5 to-transparent"></div>
+                    <div className="relative flex items-start gap-4">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-xl shadow-violet-500/30 flex-shrink-0">
+                        <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-400/20 text-xs font-medium text-violet-300 mb-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+                          Book a Demo
+                        </div>
+                        <h2 className="text-xl font-bold text-white mb-1">Schedule Your Call</h2>
+                        <p className="text-sm text-neutral-400">30-minute consultation with our team</p>
+                      </div>
                     </div>
                   </div>
-                  {/* Cal.com Iframe Embed */}
-                  <div className="relative w-full" style={{ height: '720px', minHeight: '720px' }}>
-                    <iframe
-                      src="https://cal.com/cyberglobal/30min"
-                      className="w-full h-full rounded-b-lg"
-                      width="100%"
-                      height="720"
-                      title="Schedule a consultation call"
-                      loading="lazy"
-                      aria-label="Calendar booking widget"
-                      style={{ border: 'none' }}
-                    />
+                  
+                  {/* Cal.com iframe with premium integration */}
+                  <div className="relative bg-gradient-to-b from-white/[0.02] to-transparent p-6">
+                    <div className="relative w-full rounded-xl overflow-hidden" style={{ height: '640px', minHeight: '640px' }}>
+                      {/* Subtle inner shadow for depth */}
+                      <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ 
+                        boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05)',
+                      }}></div>
+                      
+                      <iframe
+                        src="https://cal.com/cyberglobal/30min?embed=true&theme=dark"
+                        className="w-full h-full rounded-xl"
+                        width="100%"
+                        height="640"
+                        title="Schedule a consultation call"
+                        loading="eager"
+                        aria-label="Calendar booking widget"
+                        style={{ 
+                          border: 'none',
+                          backgroundColor: '#0B0B0F',
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Powered by badge */}
+                    <div className="mt-4 flex items-center justify-center gap-2 text-xs text-neutral-500">
+                      <svg className="w-3.5 h-3.5 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span>Secure booking via Cal.com</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
