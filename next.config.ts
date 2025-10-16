@@ -29,21 +29,21 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=(), payment=()"
           },
           {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://*.vercel-insights.com https://*.cal.com",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob:",
-              "font-src 'self'",
-              "connect-src 'self' https://api.resend.com https://*.sentry.io",
-              "frame-src https://cal.com https://*.cal.com",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'none'"
-            ].join("; ")
-          }
+                  key: "Content-Security-Policy",
+                  value: [
+                    "default-src 'self'",
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-insights.com https://*.cal.com https://app.cal.com https://hcaptcha.com https://*.hcaptcha.com",
+                    "style-src 'self' 'unsafe-inline' https://*.hcaptcha.com",
+                    "img-src 'self' data: blob: https:",
+                    "font-src 'self' data:",
+                    "connect-src 'self' https://api.resend.com https://*.sentry.io https://hcaptcha.com https://*.hcaptcha.com https://*.cal.com",
+                    "frame-src https://cal.com https://*.cal.com https://hcaptcha.com https://*.hcaptcha.com",
+                    "object-src 'none'",
+                    "base-uri 'self'",
+                    "form-action 'self'",
+                    "frame-ancestors 'none'"
+                  ].join("; ")
+                }
         ],
       },
     ];
