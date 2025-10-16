@@ -89,15 +89,18 @@ export function ContactContent() {
       {/* Cal.com Embed Script */}
       <Script
         src="https://app.cal.com/embed/embed.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           const Cal = (window as typeof window & { Cal?: (action: string, options: Record<string, unknown>) => void }).Cal;
-          if (Cal && process.env.NEXT_PUBLIC_CAL_URL) {
-            // Extract username from Cal.com URL
-            const calUrl = process.env.NEXT_PUBLIC_CAL_URL;
-            const match = calUrl.match(/cal\.com\/([^/?]+)/);
-            const calLink = match ? match[1] : "demo/30min";
-            
+          
+          // Always try to load Cal.com (use env var or default)
+          const calUrl = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/cyberglobal/30min";
+          const match = calUrl.match(/cal\.com\/([^/?]+)/);
+          const calLink = match ? match[1] : "cyberglobal/30min";
+          
+          console.log("[Cal.com] Initializing with:", calLink);
+          
+          if (Cal) {
             Cal("init", { origin: "https://cal.com" });
             Cal("inline", {
               elementOrSelector: "#cal-embed",
@@ -106,7 +109,13 @@ export function ContactContent() {
             });
             
             setCalLoaded(true);
+            console.log("[Cal.com] Loaded successfully");
+          } else {
+            console.error("[Cal.com] Cal object not found");
           }
+        }}
+        onError={(e) => {
+          console.error("[Cal.com] Script failed to load:", e);
         }}
       />
       
