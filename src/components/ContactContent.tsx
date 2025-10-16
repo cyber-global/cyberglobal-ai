@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ContactInfo } from "./ContactInfo";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import Script from "next/script";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -84,6 +85,7 @@ export function ContactContent() {
 
   return (
     <>
+      
       {/* Hero */}
       <section className="pt-24 pb-16">
         <div className="mx-auto max-w-7xl px-6">
@@ -252,12 +254,12 @@ export function ContactContent() {
                   <div className="relative w-full" style={{ height: '720px', minHeight: '720px' }}>
                     <iframe
                       src="https://cal.com/cyberglobal/30min"
-                      className="w-full h-full rounded-b-lg border-0"
+                      className="w-full h-full rounded-b-lg"
                       width="100%"
                       height="720"
                       title="Schedule a consultation call"
                       loading="lazy"
-                      allow="camera; microphone"
+                      aria-label="Calendar booking widget"
                       style={{ border: 'none' }}
                     />
                   </div>
