@@ -91,28 +91,34 @@ export function ContactContent() {
         src="https://app.cal.com/embed/embed.js"
         strategy="afterInteractive"
         onLoad={() => {
-          const Cal = (window as typeof window & { Cal?: (action: string, options: Record<string, unknown>) => void }).Cal;
+          console.log("[Cal.com] Script loaded, attempting to initialize...");
           
-          // Always try to load Cal.com (use env var or default)
-          const calUrl = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/cyberglobal/30min";
-          const match = calUrl.match(/cal\.com\/([^/?]+)/);
-          const calLink = match ? match[1] : "cyberglobal/30min";
-          
-          console.log("[Cal.com] Initializing with:", calLink);
-          
-          if (Cal) {
-            Cal("init", { origin: "https://cal.com" });
-            Cal("inline", {
-              elementOrSelector: "#cal-embed",
-              calLink: calLink,
-              layout: "month_view",
-            });
+          // Give Cal.com time to initialize
+          setTimeout(() => {
+            const Cal = (window as typeof window & { Cal?: (action: string, options: Record<string, unknown>) => void }).Cal;
             
-            setCalLoaded(true);
-            console.log("[Cal.com] Loaded successfully");
-          } else {
-            console.error("[Cal.com] Cal object not found");
-          }
+            console.log("[Cal.com] Cal object exists:", !!Cal);
+            
+            if (Cal) {
+              try {
+                Cal("init", { origin: "https://cal.com" });
+                console.log("[Cal.com] Init called");
+                
+                Cal("inline", {
+                  elementOrSelector: "#cal-embed",
+                  calLink: "cyberglobal/30min",
+                  layout: "month_view",
+                });
+                
+                console.log("[Cal.com] Inline called");
+                setCalLoaded(true);
+              } catch (error) {
+                console.error("[Cal.com] Error during initialization:", error);
+              }
+            } else {
+              console.error("[Cal.com] Cal object not found on window");
+            }
+          }, 100);
         }}
         onError={(e) => {
           console.error("[Cal.com] Script failed to load:", e);
