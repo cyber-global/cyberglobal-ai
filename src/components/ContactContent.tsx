@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ContactInfo } from "./ContactInfo";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import Script from "next/script";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -17,7 +16,6 @@ export function ContactContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
-  const [calLoaded, setCalLoaded] = useState(false);
 
   useEffect(() => {
     // Listen for Cal.com events
@@ -86,45 +84,6 @@ export function ContactContent() {
 
   return (
     <>
-      {/* Cal.com Embed Script */}
-      <Script
-        src="https://app.cal.com/embed/embed.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          console.log("[Cal.com] Script loaded, attempting to initialize...");
-          
-          // Give Cal.com time to initialize
-          setTimeout(() => {
-            const Cal = (window as typeof window & { Cal?: (action: string, options: Record<string, unknown>) => void }).Cal;
-            
-            console.log("[Cal.com] Cal object exists:", !!Cal);
-            
-            if (Cal) {
-              try {
-                Cal("init", { origin: "https://cal.com" });
-                console.log("[Cal.com] Init called");
-                
-                Cal("inline", {
-                  elementOrSelector: "#cal-embed",
-                  calLink: "cyberglobal/30min",
-                  layout: "month_view",
-                });
-                
-                console.log("[Cal.com] Inline called");
-                setCalLoaded(true);
-              } catch (error) {
-                console.error("[Cal.com] Error during initialization:", error);
-              }
-            } else {
-              console.error("[Cal.com] Cal object not found on window");
-            }
-          }, 100);
-        }}
-        onError={(e) => {
-          console.error("[Cal.com] Script failed to load:", e);
-        }}
-      />
-      
       {/* Hero */}
       <section className="pt-24 pb-16">
         <div className="mx-auto max-w-7xl px-6">
@@ -289,18 +248,18 @@ export function ContactContent() {
                       <div className="w-12 h-0.5 bg-gradient-to-r from-violet-500 to-transparent rounded-full mt-1"></div>
                     </div>
                   </div>
-                  {/* Cal.com Embed with Event Tracking */}
+                  {/* Cal.com Iframe Embed */}
                   <div className="relative w-full" style={{ height: '720px', minHeight: '720px' }}>
-                    {!calLoaded && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="skeleton w-full h-full rounded-b-lg"></div>
-                      </div>
-                    )}
-                    <div 
-                      id="cal-embed"
-                      className="w-full h-full rounded-b-lg overflow-hidden"
-                      style={{ minHeight: '720px' }}
-                    ></div>
+                    <iframe
+                      src="https://cal.com/cyberglobal/30min"
+                      className="w-full h-full rounded-b-lg border-0"
+                      width="100%"
+                      height="720"
+                      title="Schedule a consultation call"
+                      loading="lazy"
+                      allow="camera; microphone"
+                      style={{ border: 'none' }}
+                    />
                   </div>
                 </div>
               </motion.div>
